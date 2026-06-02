@@ -2,50 +2,67 @@ import numpy as np
 import pandas as pd
 from collections import defaultdict
 
-def ndcg_at_k(df, k=10):
-    user_items = defaultdict(list)
+anime_ids = np.load("anime_ids.npy", allow_pickle=True)
+anime_names = np.load("anime_names.npy", allow_pickle=True)
+anime_genres = np.load("anime_genres.npy", allow_pickle=True)
+anime_ratings = np.load("anime_ratings.npy", allow_pickle=True)
+id_to_index = np.load("id_to_index.npy", allow_pickle=True).item()
+def get_info(anime_id):
+
+    if anime_id not in id_to_index:
+        return None
+
+    idx = id_to_index[anime_id]
+
+    return {
+        "name": anime_names[idx],
+        "genre": anime_genres[idx],
+        "rating": anime_ratings[idx]
+    }
+# def ndcg_at_k(df, k=10):
+#     user_items = defaultdict(list)
 
    
-    for row in df.itertuples():
-        i = row.user_id
-        j = row.anime_id
-        r = row.rating
+#     for row in df.itertuples():
+#         i = row.user_id
+#         j = row.anime_id
+#         r = row.rating
 
-        if j > 73515:
-            continue
+#         if j > 73515:
+#             continue
 
-        if i > 12294:
-            continue
+#         if i > 12294:
+#             continue
 
-        pred = g_mean + bu[i] + bi[j] + W[i] @ H[:, j]
+#         pred = g_mean + bu[i] + bi[j] + W[i] @ H[:, j]
 
-        user_items[i].append((pred, r))
+#         user_items[i].append((pred, r))
 
-    ndcg_scores = []
+#     ndcg_scores = []
 
-    for user, items in user_items.items():
+#     for user, items in user_items.items():
 
-        if len(items) < 2:
-            continue
+#         if len(items) < 2:
+#             continue
 
-        # Sort by predicted score
-        ranked = sorted(items, key=lambda x: x[0], reverse=True)
+#         # Sort by predicted score
+#         ranked = sorted(items, key=lambda x: x[0], reverse=True)
 
-        dcg = 0.0
-        for idx, (_, rel) in enumerate(ranked[:k]):
-            dcg += (2**rel - 1) / np.log2(idx + 2)
+#         dcg = 0.0
+#         for idx, (_, rel) in enumerate(ranked[:k]):
+#             dcg += (2**rel - 1) / np.log2(idx + 2)
 
-        # Ideal ranking
-        ideal = sorted(items, key=lambda x: x[1], reverse=True)
+#         # Ideal ranking
+#         ideal = sorted(items, key=lambda x: x[1], reverse=True)
 
-        idcg = 0.0
-        for idx, (_, rel) in enumerate(ideal[:k]):
-            idcg += (2**rel - 1) / np.log2(idx + 2)
+#         idcg = 0.0
+#         for idx, (_, rel) in enumerate(ideal[:k]):
+#             idcg += (2**rel - 1) / np.log2(idx + 2)
 
-        if idcg > 0:
-            ndcg_scores.append(dcg / idcg)
+#         if idcg > 0:
+#             ndcg_scores.append(dcg / idcg)
 
-    return np.mean(ndcg_scores)
+#     return np.mean(ndcg_scores)
 
 
 # df1 = pd.read_csv(
@@ -55,7 +72,7 @@ def ndcg_at_k(df, k=10):
 # df2 = pd.read_csv(
 #     "/home/saidharahas/jupyter_projects/anime_reco/anime_data/rating.csv"
 # )
-g_mean=df2["rating"].mean()
+#g_mean=df2["rating"].mean()
 W = np.load("W.npy")
 H = np.load("H.npy")
 bu = np.load("bu.npy")
@@ -65,10 +82,6 @@ print("W:", W.shape)
 print("H:", H.shape)
 
 
-anime_lookup = (
-    df1.set_index("anime_id")
-       .to_dict("index")
-)
 
 
 
@@ -78,7 +91,7 @@ def similar_anime(anime_id, top_k=10):
         print("Anime ID not present in model.")
         return
 
-    if anime_id not in anime_lookup:
+    if get_info(anime_id)==None:
         print("Anime not found in anime.csv")
         return
 
@@ -93,7 +106,7 @@ def similar_anime(anime_id, top_k=10):
         if aid == anime_id:
             continue
 
-        if aid not in anime_lookup:
+        if get_info(aid)==None:
             continue
 
         vec = H[:, aid]
@@ -111,7 +124,7 @@ def similar_anime(anime_id, top_k=10):
 
   
 
-    target_info = anime_lookup[anime_id]
+    target_info = get_info(anime_id)
 
     print("ID:", anime_id)
     print("Name:", target_info["name"])
@@ -126,7 +139,7 @@ def similar_anime(anime_id, top_k=10):
 
     for sim, aid in sims:
 
-        info = anime_lookup[aid]
+        info = get_info(aid)
 
         print(
             f"{shown+1:2d}. "
