@@ -5,7 +5,7 @@ from collections import defaultdict
 def ndcg_at_k(df, k=10):
     user_items = defaultdict(list)
 
-    # Collect predictions and true ratings
+   
     for row in df.itertuples():
         i = row.user_id
         j = row.anime_id
@@ -46,17 +46,15 @@ def ndcg_at_k(df, k=10):
             ndcg_scores.append(dcg / idcg)
 
     return np.mean(ndcg_scores)
-# -----------------------------
-# Load data
-# -----------------------------
 
-df1 = pd.read_csv(
-    "/home/saidharahas/jupyter_projects/anime_reco/anime_data/anime.csv"
-)
 
-df2 = pd.read_csv(
-    "/home/saidharahas/jupyter_projects/anime_reco/anime_data/rating.csv"
-)
+# df1 = pd.read_csv(
+#     "/home/saidharahas/jupyter_projects/anime_reco/anime_data/anime.csv"
+# )
+
+# df2 = pd.read_csv(
+#     "/home/saidharahas/jupyter_projects/anime_reco/anime_data/rating.csv"
+# )
 g_mean=df2["rating"].mean()
 W = np.load("W.npy")
 H = np.load("H.npy")
@@ -143,15 +141,15 @@ def similar_anime(anime_id, top_k=10):
             break
 
 
-print("NDCG@10:", ndcg_at_k(df2.iloc[10000:20000], k=10))
+#print("NDCG@10:", ndcg_at_k(df2.iloc[10000:20000], k=10))
 print("\n\nGINTAMA°")
-similar_anime(28977, top_k=20)
+similar_anime(28977, top_k=10)
 
 print("\n\nFULLMETAL ALCHEMIST: BROTHERHOOD")
-similar_anime(5114, top_k=20)
+similar_anime(5114, top_k=10)
 
 print("\n\nDEATH NOTE")
-similar_anime(1535, top_k=20)
+similar_anime(1535, top_k=10)
 
 print("\n\nATTACK ON TITAN")
-similar_anime(16498, top_k=20)
+similar_anime(16498, top_k=10)
