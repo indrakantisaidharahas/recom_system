@@ -143,13 +143,13 @@ def similar_anime(anime_id, top_k=10):
 
 #print("NDCG@10:", ndcg_at_k(df2.iloc[10000:20000], k=10))
 print("\n\nGINTAMA°")
-similar_anime(28977, top_k=20)
+similar_anime(28977, top_k=10)
 
 print("\n\nFULLMETAL ALCHEMIST: BROTHERHOOD")
-similar_anime(5114, top_k=20)
+similar_anime(5114, top_k=10)
 
 print("\n\nDEATH NOTE")
-similar_anime(1535, top_k=20)
+similar_anime(1535, top_k=10)
 
 print("\n\nATTACK ON TITAN")
-similar_anime(16498, top_k=20)
+similar_anime(16498, top_k=10)
