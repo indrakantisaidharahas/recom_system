@@ -40,6 +40,14 @@ Collaborative filtering → learns user behavior, not genre similarity.
 ## RESULTS
 ```W: (73517, 50)
 H: (50, 34528)
-NDCG@10: 0.8552502296775826```
+NDCG@10: 0.8552502296775826
+```
+
+
+## Vector Search 
+for efficeintly finding top similar vectors instead of brute force evaluation we will be using 
+Redis hnsw feature 
+for stroing and querying efficently 
+
 
 
