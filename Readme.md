@@ -45,9 +45,24 @@ NDCG@10: 0.8552502296775826
 
 
 ## Vector Search 
-for efficeintly finding top similar vectors instead of brute force evaluation we will be using 
-Redis hnsw feature 
-for stroing and querying efficently 
 
+The matrix factorization model produces a 50-dimensional embedding for every anime.
+
+To efficiently retrieve similar anime, these embeddings are stored in Redis Stack using its HNSW (Hierarchical Navigable Small World) vector index.
+
+Why HNSW?
+
+A brute-force search compares a query against every anime:
+
+O(N)
+
+HNSW constructs a multi-layer graph where each anime vector is connected to nearby neighbors. During search, the algorithm traverses this graph to quickly locate the closest vectors without scanning the entire dataset.
+
+Advantages:
+
+Fast approximate nearest-neighbor search
+Scales well to large embedding collections
+Low query latency
+Integrates directly with Redis
 
 
