@@ -132,31 +132,31 @@ def ndcg_at_k(df, k=10):
     return np.mean(ndcg_scores)
 df2 = df2.sample(frac=1, random_state=42).reset_index(drop=True)                                 
 update(0,100000)
-#rmse(5001)
-#print("NDCG@10:", ndcg_at_k(df2.iloc[10000:20000], k=10))
+rmse(5001)
+print("NDCG@10:", ndcg_at_k(df2.iloc[10000:20000], k=10))
 
 
 # choose reference anime (example: index 0)
-# target = H[:, 28977]
+target = H[:, 28977]
 
-# best_sim = -1
-# best_ind = -1
+best_sim = -1
+best_ind = -1
 
-# for i in range(0,10000):  # 3400 anime
-#     if i==28977:
-#          continue
-#     vec = H[:, i]
+for i in range(0,10000):  # 3400 anime
+    if i==28977:
+         continue
+    vec = H[:, i]
 
-#     sim = np.dot(vec, target) / (
-#         np.linalg.norm(vec) * np.linalg.norm(target)
-#     )
+    sim = np.dot(vec, target) / (
+        np.linalg.norm(vec) * np.linalg.norm(target)
+    )
 
-#     if sim > best_sim:
-#         best_sim = sim
-#         best_ind = i
+    if sim > best_sim:
+        best_sim = sim
+        best_ind = i
 
-# print("Most similar anime ID:", best_ind)
+print("Most similar anime ID:", best_ind)
 
-# print(df1[df1["anime_id"] == best_ind])
-# print(df1[df1["anime_id"]==28977])
+print(df1[df1["anime_id"] == best_ind])
+print(df1[df1["anime_id"]==28977])
           

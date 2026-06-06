@@ -158,8 +158,8 @@ for epoch in range(epochs):
 
     print("Test RMSE:", test_rmse)
 
-    np.save("W.npy", W)
-    np.save("H.npy", H)
+    np.save("W2.npy", W)
+    np.save("H2.npy", H)
     np.save("bu.npy", bu)
     np.save("bi.npy", bi)
 
