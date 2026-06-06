@@ -1,39 +1,22 @@
 module my-local
 
-go 1.26
-
-require golang.org/x/net v0.55.0
+go 1.25.0
 
 require (
-	github.com/cquotient/go-npy v0.0.0-20161020142251-8fb0f4cc8c00 // indirect
-	github.com/daulet/tokenizers v1.27.0 // indirect
-	github.com/dustin/go-humanize v1.0.1 // indirect
-	github.com/go-errors/errors v1.5.1 // indirect
-	github.com/go-logr/logr v1.4.3 // indirect
-	github.com/gofrs/flock v0.13.0 // indirect
-	github.com/gomlx/exceptions v0.0.3 // indirect
-	github.com/gomlx/go-huggingface v0.3.5 // indirect
-	github.com/gomlx/go-xla v0.2.2 // indirect
-	github.com/gomlx/gomlx v0.27.3 // indirect
-	github.com/gomlx/onnx-gomlx v0.4.2 // indirect
-	github.com/google/uuid v1.6.0 // indirect
-	github.com/knights-analytics/hugot v0.7.5 // indirect
-	github.com/knights-analytics/ortgenai v0.3.1 // indirect
-	github.com/kshedden/gonpy v0.0.0-20210519231815-fa3c8dd8e59b // indirect
+	github.com/joho/godotenv v1.5.1
+	github.com/redis/go-redis/v9 v9.20.0
+	github.com/sbinet/npyio v0.9.0
+	gonum.org/v1/gonum v0.16.0
+)
+
+require (
+	github.com/campoy/embedmd v1.0.0 // indirect
+	github.com/cespare/xxhash/v2 v2.3.0 // indirect
+	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/nlpodyssey/gopickle v0.3.0 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sbinet/npyio v0.9.0 // indirect
-	github.com/viant/afs v1.30.0 // indirect
-	github.com/x448/float16 v0.8.4 // indirect
-	github.com/yalue/onnxruntime_go v1.31.0 // indirect
-	golang.org/x/crypto v0.52.0 // indirect
-	golang.org/x/exp v0.0.0-20260603202125-055de637280b // indirect
-	golang.org/x/image v0.41.0 // indirect
-	golang.org/x/sync v0.20.0 // indirect
+	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
+	github.com/stretchr/testify v1.11.1 // indirect
+	go.uber.org/atomic v1.11.0 // indirect
 	golang.org/x/sys v0.45.0 // indirect
-	golang.org/x/term v0.43.0 // indirect
 	golang.org/x/text v0.37.0 // indirect
-	gonum.org/v1/gonum v0.16.0 // indirect
-	google.golang.org/protobuf v1.36.11 // indirect
-	k8s.io/klog/v2 v2.140.0 // indirect
 )
