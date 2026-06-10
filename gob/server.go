@@ -43,17 +43,28 @@ query ($userName: String) {
     }
   }
 }`
-var name_id map[string]int
-var id_name map[int]string 
- /*-----------------setting up datasbase connection ---------------------*/
+var rdb *redis.Client
 var ctx = context.Background()
+func init() {
 
-var rdb = redis.NewClient(&redis.Options{
-    Addr:     "localhost:6379",
+ /*-----------------setting up datasbase connection ---------------------*/
+ godotenv.Load("../.env")
+
+
+ rdb = redis.NewClient(&redis.Options{
+    Addr:   os.Getenv("REDIS_URL"),
     Password: "",
     DB:       0,
     Protocol: 2,
 })
+}
+
+var name_id map[string]int
+var id_name map[int]string 
+ /*-----------------setting up datasbase connection ---------------------*/
+
+
+
 type pair struct {
     id    int
     score float64
@@ -236,14 +247,14 @@ json.NewEncoder(w).Encode(reply)
 
 func main(){
    
-   
+    
     /*-----------------setting anime id and name converisions----------------*/
      name_id,id_name=init_maps()
      
 
     ///http.HandleFunc("/",getPage)
     http.HandleFunc("/recommendations",getRecom)
-   log.Fatal(http.ListenAndServe(":8080", nil))
+   log.Fatal(http.ListenAndServe(os.Getenv("PORT"), nil))
     
 }
 
@@ -253,7 +264,7 @@ func main(){
 
 
 func init_maps() (map[string]int,map[int]string){
-    file ,err:=os.Open("/home/saidharahas/jupyter_projects/anime_reco/names_to_id.csv")
+    file ,err:=os.Open(os.Getenv("CSV"))
     defer file.Close()
        if err!=nil{
 
