@@ -73,19 +73,12 @@ func main() {
 	ctx := context.Background()
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_URL"),
-		Password: "", // no password docs
-		DB:       0,  // use default DB
-		Protocol: 2,
+		Username: "default",
+		Password: os.Getenv("REDIS_PASSWORD"),
+		DB:       0,
 	})
 
-	rdb.FTDropIndexWithArgs(ctx,
-		"anime_idx",
-		&redis.FTDropIndexOptions{
-			DeleteDocs: true,
-		},
-	)
-
-_, err:= rdb.FTCreate(ctx,
+_, err:=rdb.FTCreate(ctx,
     "anime_idx",
     &redis.FTCreateOptions{
         OnHash: true,
@@ -126,7 +119,7 @@ _, err:= rdb.FTCreate(ctx,
 
 
 /*------------------inserting into the hnsw storage----------------------*/
-
+pipe := rdb.Pipeline()
 for i:=0;i<cols;i++{
 	colView:=m.ColView(i)
 	n := colView.Len()
@@ -142,11 +135,16 @@ key := fmt.Sprintf("anime:%d", i)
 for j := 0; j < rows; j++ {
     vec[j] = float32(colView.AtVec(j))
 }
-	rdb.HSet(ctx,
+	pipe.HSet(ctx,
     key,
     "embedding", Float32SliceToBytes(vec),
 )
 }
+
+
+
+
+_, err= pipe.Exec(ctx)
 
 
 
