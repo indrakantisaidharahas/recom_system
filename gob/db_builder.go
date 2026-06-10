@@ -68,11 +68,11 @@ func Float32SliceToBytes(vec []float32) []byte {
 /*------------------------api strcutres----------------------------*/
 
 func main() {
-	
+	 godotenv.Load("../.env")
 /*-----------------initialising redis vectror databse----------------------*/
 	ctx := context.Background()
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
+		Addr:     os.Getenv("REDIS_URL"),
 		Password: "", // no password docs
 		DB:       0,  // use default DB
 		Protocol: 2,
@@ -106,7 +106,7 @@ _, err:= rdb.FTCreate(ctx,
 
 
 /*---------------loading the aime vectors---------------*/
-	win, err := os.Open("/home/saidharahas/jupyter_projects/anime_reco/H.npy")
+	win, err := os.Open(os.Getenv("HPATH"))
 	if err != nil {
 		fmt.Println(err)
 		return
