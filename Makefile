@@ -7,4 +7,4 @@ build-db: tidy
 	cd gob && go run db_builder.go
 
 build-server: tidy
-	cd gob && go build -o server .
+	cd gob && go build -o server server.go

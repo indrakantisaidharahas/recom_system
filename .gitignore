@@ -4,3 +4,4 @@ thoughts.md
 .env
 gob/.env
 gob/output.txt
+gob/./server
