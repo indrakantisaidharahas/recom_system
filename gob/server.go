@@ -254,7 +254,12 @@ func main(){
 
     ///http.HandleFunc("/",getPage)
     http.HandleFunc("/recommendations",getRecom)
-   log.Fatal(http.ListenAndServe(os.Getenv("PORT"), nil))
+  port := os.Getenv("PORT")
+if port == "" {
+    port = "8080"
+}
+
+log.Fatal(http.ListenAndServe(":" + port, nil))
     
 }
 
