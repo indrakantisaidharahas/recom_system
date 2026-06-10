@@ -51,12 +51,12 @@ func init() {
  godotenv.Load("../.env")
 
 
- rdb = redis.NewClient(&redis.Options{
-    Addr:   os.Getenv("REDIS_URL"),
-    Password: "",
-    DB:       0,
-    Protocol: 2,
-})
+rdb = redis.NewClient(&redis.Options{
+        Addr:     os.Getenv("REDIS_URL"),
+        Username: "default",
+        Password: os.Getenv("REDIS_PASSWORD"),
+        DB:       0,
+    })
 }
 
 var name_id map[string]int
