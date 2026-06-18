@@ -1,6 +1,8 @@
 const url=document.getElementById("AURL")
-const val=url.val
+const val=String(url.val)
 const button=document.getElementById("gert")
+const res=document.getElementById("results")
+
 button.onclick=()=>{
 	fetch('https://recom-system-bm2h.onrender.com/recommendations', {
   method: 'POST',
@@ -13,10 +15,12 @@ button.onclick=()=>{
 }) .then(response => response.json())
   .then(data => {
     // If data is an array:
-    data.forEach(item => console.log(item));
     
-    // If data is an object containing an array (e.g., { "results": [...] }):
-    data.results.forEach(item => console.log(item));
+  data.forEach(item => {
+    res.innerHTML += item + "<br>";
+});
+    
+
   })
 
 
