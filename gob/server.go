@@ -79,12 +79,16 @@ func getRecom(w http.ResponseWriter ,r *http.Request){
     w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
     w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
     fmt.Println("processing")
-    if r.Method != http.MethodPost {
-         fmt.Println("error")
-         fmt.Println("error")
-        http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-        return
-    }
+    // if r.Method != http.MethodPost {
+    //      fmt.Println("error")
+    //      fmt.Println("error")
+    //     http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+    //     return
+    // }
+    if r.Method == http.MethodOptions {
+    w.WriteHeader(http.StatusOK)
+    return
+}
     var data map[string]string
     err := json.NewDecoder(r.Body).Decode(&data)
     if err != nil {
