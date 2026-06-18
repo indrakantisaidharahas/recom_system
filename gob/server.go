@@ -18,6 +18,7 @@ import (
    
     "encoding/json"
     "context"
+
     "bytes"
     "log"
  "github.com/joho/godotenv"
@@ -74,6 +75,9 @@ type pair struct {
 // }
 /*------------function that  handles recommendation requests---------------*/
 func getRecom(w http.ResponseWriter ,r *http.Request){
+    w.Header().Set("Access-Control-Allow-Origin", "*")
+    w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+    w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
     fmt.Println("processing")
     if r.Method != http.MethodPost {
          fmt.Println("error")

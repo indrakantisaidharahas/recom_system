@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            margin-bottom: 15px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #ececec;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 6px;
+        }
+
+        .search-results {
+            min-height: 80px;
+            border: 1px dashed #bbb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            background: #fafafa;
+        }
+
+        .recommendations {
+            min-height: 120px;
+            border: 1px dashed #bbb;
+            border-radius: 6px;
+            padding: 10px;
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Anime Recommendation System</h1>
+
+    <!-- AniList Profile -->
+    <div class="section">
+        <h2>AniList Profile</h2>
+        <input id="AURL"
+            type="text"
+            placeholder="Enter AniList Profile URL"
+        >
+        <button>Import Anime List</button>
+    </div>
+
+    <!-- Anime Search -->
+    <div class="section">
+        <h2>Search Anime</h2>
+        <input
+            type="text"
+            placeholder="Search for an anime..."
+        >
+
+        <div class="search-results">
+            Search results 
+        </div>
+    </div>
+
+    <!-- Manual Anime List -->
+    <div class="section">
+        <h2>Manually Add Watched Anime</h2>
+
+        <input
+            type="text"
+            placeholder="Anime title"
+        >
+
+        <button>Add Anime</button>
+
+        <ul>
+           
+        </ul>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="section">
+        <h2>Recommendations</h2>
+
+        <button id="gert">Get Recommendations</button>
+
+        <div class="recommendations">
+            Recommended anime will appear here.
+        </div>
+    </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
