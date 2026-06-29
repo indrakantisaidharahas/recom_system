@@ -267,7 +267,7 @@ if port == "" {
     port = "8080"
 }
 
-log.Fatal(http.ListenAndServe(":" + port, nil))
+log.Fatal(http.ListenAndServe(":" +port, nil))
     
 }
 
@@ -281,7 +281,7 @@ func init_maps() (map[string]int,map[int]string){
     defer file.Close()
        if err!=nil{
 
-     fmt.Println("error in making the maps ")
+     fmt.Println("file opening error")
      return nil,nil
         }
     defer file.Close()
@@ -290,7 +290,7 @@ func init_maps() (map[string]int,map[int]string){
     headers,err:=reader.Read()
        if err!=nil{
 
-     fmt.Println("error in making the maps ")
+     fmt.Println("file readin error")
      return nil,nil
         }
     fmt.Println(headers[0])
@@ -317,7 +317,7 @@ func init_maps() (map[string]int,map[int]string){
 
      if err!=nil{
 
-     fmt.Println("error in making the maps ")
+     fmt.Println("string conversion error ")
      return nil,nil
         }
 
