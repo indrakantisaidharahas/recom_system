@@ -1,7 +1,7 @@
 
 const button=document.getElementById("gert")
 const res=document.getElementById("results")
-
+ind_db_builder("wizard","gringots","./names_to_id.json")
 button.onclick=()=>{
 const url=document.getElementById("AURL")
 const val=String(url.value)
