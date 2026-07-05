@@ -91,17 +91,19 @@
     <div class="section">
         <h2>Search Anime</h2>
         <input
+          id="user_search"
             type="text"
             placeholder="Search for an anime..."
         >
+        <button id="search">Search anime</button>
 
-        <div class="search-results">
-            Search results 
+        <div id= "search_results" class="search-results">
+           Get  Search results  for  anime in our database 
         </div>
     </div>
 
     <!-- Manual Anime List -->
-    <div class="section">
+   <!-- <div class="section">
         <h2>Manually Add Watched Anime</h2>
 
         <input
@@ -114,7 +116,7 @@
         <ul>
            
         </ul>
-    </div>
+    </div> -->
 
     <!-- Recommendations -->
     <div class="section">
@@ -123,13 +125,13 @@
         <button id="gert">Get Recommendations</button>
 
         <div id="results" class="recommendations">
-          
+          Recommendations would be fetched according to Anilist profile
         </div>
     </div>
 </div>
 <script src="API.js"></script>
 <script src="ind_db_buider.js"></script>
-<script src="main.js"></script>
+<script type="module" src="main.js"></script>
 
 </body>
 </html>

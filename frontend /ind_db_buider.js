@@ -1,6 +1,5 @@
-
 async function ind_db_builder(dbName, storeName, jsonPath) {
- const response = await fetch(jsonPath);
+  const response = await fetch(jsonPath);
 
   if (!response.ok) {
     throw new Error(`Failed to load JSON: ${response.status} ${response.statusText}`);
@@ -8,55 +7,39 @@ async function ind_db_builder(dbName, storeName, jsonPath) {
 
   const data = await response.json();
 
-  const dbRequest = indexedDB.open(dbName, 1);
+  return new Promise((resolve, reject) => {
 
-  dbRequest.onupgradeneeded = (event) => {
-    const db = event.target.result;
-    const store = db.createObjectStore(storeName, { keyPath: 'docid' });
-    store.createIndex('accio', 'terms', { multiEntry: true });
-  };
+    const dbRequest = indexedDB.open(dbName, 1);
 
-  dbRequest.onsuccess = (event) => {
-    console.log("connection to db opened");
+    dbRequest.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      const store = db.createObjectStore(storeName, { keyPath: "docid" });
+      store.createIndex("accio", "terms", { multiEntry: true });
+    };
 
-    const db = event.target.result;
-    const transaction = db.transaction([storeName], "readwrite");
-    const store = transaction.objectStore(storeName);
+    dbRequest.onerror = () => reject(dbRequest.error);
 
-    let ind = 0;
+    dbRequest.onsuccess = (event) => {
+      const db = event.target.result;
 
-    for (const value of Object.values(data.name)) {
-      store.put({
-        docid: ind,
-        text: value,
-        terms: API.tokenize(value, 'en')
-      });
-      ind++;
-    }
+      const transaction = db.transaction(storeName, "readwrite");
+      const store = transaction.objectStore(storeName);
 
-   transaction.oncomplete = () => {
-  console.log("Import successful!");
+      let ind = 0;
 
-  const tx = db.transaction(storeName, "readonly");
-  const readStore = tx.objectStore(storeName);
-  const index = readStore.index("accio");
+      for (const value of Object.values(data.name)) {
+        store.put({
+          docid: ind++,
+          text: value,
+          terms: API.tokenize(value, "en")
+        });
+      }
 
-  API.search(index, "My Hero Academia", "en").then(async (res) => {
-    console.log(res);
+      transaction.oncomplete = () => {
+        console.log("Import successful!");
+        resolve(db);
+      };
+    };
 
-    for (const [id, score] of res) {
-      const req = readStore.get(id);
-
-      const anime = await new Promise((resolve, reject) => {
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-      });
-
-      console.log(anime.text, score);
-    }
-
-    db.close();
   });
-};
-  };
 }
