@@ -41,7 +41,7 @@ console.log(val)
 const button2=document.getElementById("search")
 button2.onclick=()=>{
   const inp=document.getElementById("user_search")
-  let num=10;
+  let num=30;
   const val=String(inp.value)
     const tx = db.transaction(storeName, "readonly");
   const readStore = tx.objectStore(storeName);
