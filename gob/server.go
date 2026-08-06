@@ -62,6 +62,7 @@ rdb = redis.NewClient(&redis.Options{
 
 var name_id map[string]int
 var id_name map[int]string 
+var counts map[int]float64
  /*-----------------setting up datasbase connection ---------------------*/
 
 
@@ -131,6 +132,8 @@ err = json.NewDecoder(resp.Body).Decode(&result)
 if err != nil {
     log.Fatal(err)
 }
+var count int
+count=0
 
 for _, list := range result.Data.MediaListCollection.Lists {
     for _, entry := range list.Entries {
@@ -141,6 +144,7 @@ for _, list := range result.Data.MediaListCollection.Lists {
             if(ok){
             titles = append(titles, li)
             idarr=append(idarr,ind)
+            count++
                 }
         } else {
             
@@ -155,7 +159,7 @@ for _, list := range result.Data.MediaListCollection.Lists {
 }
 /*-----------------ending of procesing user data---------------*/
 
-
+fmt.Println(" no of matched animes are "+strconv.Itoa(count))
 
 /*-------------------------scoring---------------------*/
 
@@ -213,7 +217,7 @@ set[numID] += sim
 var arr []pair
 
 for id, sc := range set {
-    arr = append(arr, pair{id, sc})
+    arr = append(arr, pair{id, sc*counts[id]})
 }
 
 // sort descending
@@ -258,7 +262,7 @@ func main(){
     
     /*-----------------setting anime id and name converisions----------------*/
      name_id,id_name=init_maps()
-     
+     counts=init_maps2()
 
     ///http.HandleFunc("/",getPage)
     http.HandleFunc("/recommendations",getRecom)
@@ -267,7 +271,7 @@ if port == "" {
     port = "8080"
 }
 
-log.Fatal(http.ListenAndServe(":" +port, nil))
+log.Fatal(http.ListenAndServe(":"+port, nil))
     
 }
 
@@ -280,8 +284,9 @@ func init_maps() (map[string]int,map[int]string){
     file ,err:=os.Open(os.Getenv("CSV"))
     defer file.Close()
        if err!=nil{
-
+    
      fmt.Println("file opening error")
+     fmt.Println(err)   
      return nil,nil
         }
     defer file.Close()
@@ -332,9 +337,71 @@ fmt.Println("succesfully intialise the maps ")
 
 
 
+
     return nameid,idname
 }
+func init_maps2()(map[int]float64){
+   file ,err:=os.Open(os.Getenv("CSV2"))
+    defer file.Close()
+       if err!=nil{
+    
+     fmt.Println("file opening error")
+     fmt.Println(err)   
+     return nil
+        }
+    defer file.Close()
+    reader:=csv.NewReader(file)
 
+    headers,err:=reader.Read()
+       if err!=nil{
+
+     fmt.Println("file readin error")
+     return nil
+        }
+        fmt.Println(headers[0])
+        counts:=make(map[int]float64)
+        for{
+        record,err:=reader.Read()
+
+
+        if err!=nil{
+
+     // fmt.Println("error in making the maps ")
+     // return nil,nil
+     break
+        }
+
+
+
+        v,err:=strconv.Atoi(record[0])
+        if err!=nil{
+ fmt.Println("string conversion error ")
+     return nil
+        }
+
+    id, err := strconv.ParseFloat(record[1],64)
+
+
+     if err!=nil{
+
+     fmt.Println("string conversion error ")
+     return nil
+        }
+
+
+
+
+        counts[v]=float64(id)
+          
+          
+          
+
+        //fmt.Println(normalize(v))
+//fmt.Println(record[1])
+    }
+    fmt.Println("made counts map success ")
+return counts
+}
 /*-----------------------cleaners---------------------*/
 func normalize(s string) string {
     s = strings.ToLower(s)
