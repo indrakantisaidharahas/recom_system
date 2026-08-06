@@ -60,7 +60,7 @@ button2.onclick=()=>{
 
       console.log(anime.text, score);
       if(num>0){
-      res2.innerHTML+="<br>" +anime.tex4t;
+      res2.innerHTML+="<br>" +anime.text;
       num=num-1;
     }
     }
